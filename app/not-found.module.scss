@@ -1,0 +1,46 @@
+@use "@/app/mixins" as mixins;
+
+.not_found {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+    font-family: "Baloo 2", sans-serif;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 0 2rem;
+
+    @include mixins.mobile {
+        gap: 1rem;
+    padding: 0 0.5rem;
+
+    }
+
+    h2 {
+        @include mixins.gradient-text(var(--gradient-1));
+        font-size: 12rem;
+        font-weight: normal;
+
+        @include mixins.mobile {
+            font-size: 8rem;
+        }
+
+    }
+
+    h3 {
+        font-size: 3rem;
+        font-weight: normal;
+
+        @include mixins.mobile {
+            font-size: 1.75rem;
+        }
+    }
+
+    p {
+        font-size: 1.5rem;
+
+        @include mixins.mobile {
+            font-size: 1rem;
+        }
+    }
+}
