@@ -3,7 +3,7 @@ import mongoClint from "@/utils/db";
 
 export default async function handler(req, res) {
     try {
-        // Only allow POST requests for security
+        // Only allow GET requests
         if (req.method !== 'GET') {
             res.status(405).json({ message: 'Method not allowed' });
             return;
