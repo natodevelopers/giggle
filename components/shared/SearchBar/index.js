@@ -11,6 +11,12 @@ const fetchSuggestions = async (search, signal) => {
     }
 
     try {
+        // Check if API keys are configured
+        if (!process.env.NEXT_PUBLIC_RAPID_API_KEY) {
+            console.warn('RapidAPI key not configured');
+            return [];
+        }
+
         const res = await fetch(`https://auto-suggest-queries.p.rapidapi.com/suggestqueries?query=${search}`, {
             "method": "GET",
             "headers": {
@@ -20,9 +26,17 @@ const fetchSuggestions = async (search, signal) => {
             signal
         });
 
+        if (!res.ok) {
+            console.warn('RapidAPI request failed:', res.status);
+            return [];
+        }
+
         const data = await res.json() || [];
         return Array.isArray(data) ? data : [];
     } catch (err) {
+        if (err.name !== 'AbortError') {
+            console.warn('Suggestions fetch error:', err.message);
+        }
         return [];
     }
 }
@@ -105,6 +119,8 @@ const SearchBar = (props) => {
         } else {
             router.push(`${pathname}?q=${suggestion}`);
         }
+
+        fetch(`/api/history?q=${suggestion}&p=${pathname}&t=${Date.now()}`).catch(() => {});
     }, [pathname, router]);
 
     const handleKeyDown = useCallback((e) => {
