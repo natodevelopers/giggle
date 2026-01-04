@@ -79,6 +79,7 @@ const VideosPageContent = (props) => {
     }, [query])
 
     if (error) {
+        console.log("Error message: ", errorMessage, " - and error: ", error);
         return (
             <div className={styles.videos__page}>
                 <div className={styles.results__container}>
